@@ -77,3 +77,36 @@ The exported package contains the following critical files:
 ## 📧 Contact & Support
 **Project Leads:** Yuri Dela Cruz & Sarah Lyn Molinyawe  
 **System Status:** Active (As of Jan 2026)
+
+
+flowchart TD
+    %% Trigger Section
+    Start([<b>Trigger:</b> When a new response is submitted]) --> GetDetails[<b>Action:</b> Get response details]
+
+    %% Variable Setup
+    GetDetails --> InitVar[<b>Action:</b> Initialize variable: varManagerEmail]
+    InitVar --> CompDiv[<b>Action:</b> Compose: Division Value]
+
+    %% Routing Section
+    CompDiv --> Switch{<b>Switch:</b> On Division Name}
+
+    Switch -- "Finance & Admin" --> V1[Set varManagerEmail: Erwina.Sibayan@mt.com]
+    Switch -- "Lab" --> V2[Set varManagerEmail: Kay.Ching@mt.com]
+    Switch -- "PI" --> V3[Set varManagerEmail: Gie.Belen@mt.com]
+    Switch -- "PRO" --> V4[Set varManagerEmail: SarahLyn.Molinyawe@mt.com]
+    Switch -- "SVC" --> V5[Set varManagerEmail: Orlando.Encabo2@mt.com]
+    Switch -- "Marcom" --> V6[Set varManagerEmail: Kaye.Molase@mt.com]
+    Switch -- "Default/Mgmt" --> V7[Set varManagerEmail: yuri.delacruz@mt.com]
+
+    %% Approval Section
+    V1 & V2 & V3 & V4 & V5 & V6 & V7 --> Approve[<b>Action:</b> Start and wait for an approval]
+
+    %% Conditional Logic
+    Approve --> Cond{<b>Condition:</b> Outcome is 'Approve'}
+
+    Cond -- YES --> SP_App[<b>Action:</b> Create SharePoint Item<br/>Status: Manager Approved]
+    Cond -- NO --> SP_Rej[<b>Action:</b> Create SharePoint Item<br/>Status: Manager Disapproved]
+
+    %% Endings
+    SP_App --> End([End Flow])
+    SP_Rej --> End
